@@ -14,6 +14,7 @@ func LoadHtml(e *gin.Engine) {
 	e.GET("/timeline", timelineHandler)
 	e.GET("/login", loginHandler)
 	e.GET("/register", registerHandler)
+	e.GET("/404", errorHandler)
 }
 func indexHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "home.html", gin.H{
@@ -53,6 +54,12 @@ func loginHandler(c *gin.Context) {
 }
 func registerHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "register.html", gin.H{
+		"title": "Main website",
+	})
+}
+
+func errorHandler(c *gin.Context) {
+	c.HTML(http.StatusOK, "404.html", gin.H{
 		"title": "Main website",
 	})
 }

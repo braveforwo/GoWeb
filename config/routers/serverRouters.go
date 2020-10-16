@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"fmt"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
@@ -22,5 +23,11 @@ func testHandler(c *gin.Context) {
 
 func gettestHandler(c *gin.Context) {
 	session := sessions.Default(c)
+	c.Next()
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println(err)
+		}
+	}()
 	c.JSON(200, gin.H{"hello": session.Get("hello")})
 }

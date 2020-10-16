@@ -17,6 +17,7 @@ func main() {
 	r := gin.Default()
 	//使用session中间件
 	r.Use(sessions.Sessions("mysession", store))
+	r.NoRoute()
 	//设置html路径
 	r.LoadHTMLGlob("assert/html/*")
 	//设置静态资源路径
