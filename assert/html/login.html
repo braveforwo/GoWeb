@@ -21,17 +21,17 @@
 			<div class="switch_bottom" id="switch_bottom"></div>
 		</nav>
 		<div id="login">
-			<form method="post" action="">
+			<form id="loginForm" method="post" action="">
 				<ul class="group_input">
 					<li>
-						<input type="text" class="mobile required" id="mobile" placeholder="手机号或邮箱" />
+						<input type="text" name="phonenumber" value="15815936612" class="mobile required" id="mobile" placeholder="手机号或邮箱" />
 					</li>
 					<li>
-						<input type="password" class="psd required" id="psd" placeholder="密码" />
+						<input type="password" name="password" value="ab123456" class="psd required" id="psd" placeholder="密码" />
 					</li>
 				</ul>
-				<button type="submit" class="submit_btn" id="btnSubmit">登陆</button>
 			</form>
+            <button type="submit" class="submit_btn" id="btnSubmit">登陆</button>
 			<div class="states">
 				<span class="left"><a href="javascript:;">手机验证码登陆</a></span>
 				<span class="right"><a href="javascript:;">无法登陆？</a></span>
@@ -141,12 +141,25 @@
 				//点击重置按钮时，通过trigger()来触发文本框的失去焦点事件
 		$("#btnSubmit").click(function(){
     		//trigger 事件执行完后，浏览器会为submit按钮获得焦点
-    		$("form .required:input").trigger("blur"); 
-    		var numError = $("form .onError").length;
-    		if(numError){
-    			return false;
-    		}
-    		alert('登陆成功！')
+            var formData = {};
+            var t = $('#loginForm').serializeArray();
+            $.each(t, function() {
+                formData[this.name] = this.value;
+            });
+            $.ajax({
+                type: "POST",
+                url: "/loginService",
+                contentType: "application/json;charset=utf-8",
+                data:JSON.stringify(formData),
+                dataType: "json",
+                success:function (message) {
+                    alert(message.msg);
+                    window.location.href="/index"
+                },
+                error:function (message) {
+                    alert(message.responseJSON.msg);
+                }
+            });
 
     	});
 		})

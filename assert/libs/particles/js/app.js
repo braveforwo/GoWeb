@@ -16,16 +16,19 @@ particlesJS('particles-js',
   {
     "particles": {
       "number": {
-        "value": 80,
+        //粒子的数量
+        "value": 30,
+        //粒子的稀密程度
         "density": {
           "enable": true,
-          "value_area": 1000
+          "value_area": 500
         }
       },
       "color": {
         "value": "#0f88eb"
       },
       "shape": {
+        //粒子的形状
         "type": "circle",
         "stroke": {
           "width": 0,
@@ -41,6 +44,7 @@ particlesJS('particles-js',
         }
       },
       "opacity": {
+        //粒子的透明度
         "value": 0.5,
         "random": false,
         "anim": {
@@ -54,9 +58,12 @@ particlesJS('particles-js',
         "value": 5,
         "random": true,
         "anim": {
+            //是否启用粒子速度
           "enable": false,
-          "speed": 40,
+           // 粒子动画频率
+          "speed": 25,
           "size_min": 0.1,
+           // 粒子运行速度与动画是否同步
           "sync": false
         }
       },
@@ -69,7 +76,8 @@ particlesJS('particles-js',
       },
       "move": {
         "enable": true,
-        "speed": 6,
+          //粒子移动速度
+        "speed": 7,
         "direction": "none",
         "random": false,
         "straight": false,

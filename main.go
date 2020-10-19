@@ -1,6 +1,7 @@
 package main
 
 import (
+	"GoWeb/config/middleware"
 	"GoWeb/config/routers"
 	"GoWeb/domain"
 	"encoding/gob"
@@ -15,9 +16,9 @@ func main() {
 	gob.Register(domain.User{})
 	store := cookie.NewStore([]byte("secret"))
 	r := gin.Default()
-	//使用session中间件
-	r.Use(sessions.Sessions("mysession", store))
-	r.NoRoute()
+	//使用中间件
+	r.Use(sessions.Sessions("mysession", store), middleware.LogerMiddleware())
+	r.NoRoute(routers.ErrorHandler)
 	//设置html路径
 	r.LoadHTMLGlob("assert/html/*")
 	//设置静态资源路径

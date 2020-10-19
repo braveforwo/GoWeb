@@ -13,43 +13,43 @@
 	<div id="particles-js"></div>
 	<div id="wrapper">
 		<div>
-			<img src="assert/images/login/zhihu_logo.png" />
+			{{/*<img src="assert/images/login/zhihu_logo.png" />*/}}
 			<h2>与世界分享你的知识、经验和见解</h2>
 		</div>
 		<nav class="switch_nav">
 			<a href="javascript:;" id="switch_signup" class="switch_btn on">注册</a>
-			<a href="login.html" id="switch_login" class="switch_btn">登陆</a>
+			<a href="login" id="switch_login" class="switch_btn">登陆</a>
 			<div class="switch_bottom" id="switch_bottom"></div>
 		</nav>
-		<form method="post" action="">
+		<form id="registerForm" method="post" action="">
 			<ul class="group_input">
 				<li>
-					<input type="text" placeholder="姓名" class="name required" id="name" />
+					<input type="text" placeholder="姓名" name="username" class="name required" id="name" value="adsf"/>
 				</li>
 				<li>
-					<input type="text" placeholder="手机号(仅支持中国大陆)" class="mobile required" id="mobile" />
+					<input type="text" placeholder="手机号(仅支持中国大陆)" name="phonenumber" class="mobile required" id="mobile" value="15815933612"/>
 				</li>
 				<li>
-					<input type="password" placeholder="密码(不少于6位)" class="psd required" id="psd" />
+					<input type="password" placeholder="密码(不少于6位)" name="password" class="psd required" id="psd" value="ab123456"/>
 				</li>
 			</ul>
-			<button type="submit" class="submit_btn" id="btnSubmit" onclick="sendSubmit()">注册知乎</button>
-			<span class="agreement-tip">点击「注册」按钮，即代表你同意<a href="javascript:;">《知乎协议》</a></span>
+			{{/*<span class="agreement-tip">点击「注册」按钮，即代表你同意<a href="javascript:;">《知乎协议》</a></span>*/}}
 		</form>
-		<div class="QRcode_btn">
-			<div type="submit" class="submit_btn download_btn">下载知乎App</div>
-			<div class="QRcode">
-				<img src="assert/images/login/QRcode.png" alt="QRcode" />
-				<div class="box"></div>
-			</div>
+        <button type="submit" class="submit_btn" id="btnSubmit">注册知乎</button>
+		{{/*<div class="QRcode_btn">*/}}
+			{{/*<div type="submit" class="submit_btn download_btn">下载知乎App</div>*/}}
+			{{/*<div class="QRcode">*/}}
+				{{/*<img src="assert/images/login/QRcode.png" alt="QRcode" />*/}}
+				{{/*<div class="box"></div>*/}}
+			{{/*</div>*/}}
 
-		</div>
+		{{/*</div>*/}}
   
 	
-		<div id="footer">
-			<span>&copy;2017知乎</span><span>·</span><a href="javascript:;">知乎圆桌</a><span>·</span><a href="javascript:;">发现</a><span>·</span><a href="javascript:;">移动应用</a><span>·</span><a href="javascript:;">使用机构账号登录</a><span>·</span><a href="javascript:;">联系我们</a><span>·</span><a href="javascript:;">工作来知乎</a><br />
-			<span>·</span><a href="javascript:;">京ICP证110745号</a><span>·</span><span>京公网安备11010802010035号</span><span>·</span><a href="javascript:;">出版物经营许可证</a>
-		</div>
+		{{/*<div id="footer">*/}}
+			{{/*<span>&copy;2017知乎</span><span>·</span><a href="javascript:;">知乎圆桌</a><span>·</span><a href="javascript:;">发现</a><span>·</span><a href="javascript:;">移动应用</a><span>·</span><a href="javascript:;">使用机构账号登录</a><span>·</span><a href="javascript:;">联系我们</a><span>·</span><a href="javascript:;">工作来知乎</a><br />*/}}
+			{{/*<span>·</span><a href="javascript:;">京ICP证110745号</a><span>·</span><span>京公网安备11010802010035号</span><span>·</span><a href="javascript:;">出版物经营许可证</a>*/}}
+		{{/*</div>*/}}
 	</div>
 	<script src="assert/libs/jquery-1.12.4/jquery.min.js"></script>
 	<script src="assert/libs/sweetalert2/sweetalert2.min.js"></script>
@@ -147,13 +147,24 @@
 				//点击重置按钮时，通过trigger()来触发文本框的失去焦点事件
 		$("#btnSubmit").click(function(){
     		//trigger 事件执行完后，浏览器会为submit按钮获得焦点
-    		$("form .required:input").trigger("blur"); 
-    		var numError = $("form .onError").length;
-    		if(numError){
-    			return false;
-    		}
-    		alert('注册成功！')
-
+            var formData = {};
+            var t = $('#registerForm').serializeArray();
+            $.each(t, function() {
+                formData[this.name] = this.value;
+            });
+            $.ajax({
+                type: "POST",
+                url: "/registerService",
+                contentType: "application/json;charset=utf-8",
+                data:JSON.stringify(formData),
+                dataType: "json",
+                success:function (message) {
+                    alert(message.msg);
+                },
+                error:function (message) {
+                    alert(message.responseJSON.msg);
+                }
+            });
     	});
 		})
 		

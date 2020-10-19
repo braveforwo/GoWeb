@@ -1,20 +1,22 @@
 package routers
 
 import (
+	"GoWeb/config/middleware"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func LoadHtml(e *gin.Engine) {
-	e.GET("/index", indexHandler)
-	e.GET("/article", articleHandler)
-	e.GET("/detail", detailHandler)
-	e.GET("/about", aboutHandler)
-	e.GET("/resource", resourceHandler)
-	e.GET("/timeline", timelineHandler)
+	e.GET("/index", middleware.AuthenticationMiddleware(), indexHandler)
+	e.GET("/article", middleware.AuthenticationMiddleware(), articleHandler)
+	e.GET("/detail", middleware.AuthenticationMiddleware(), detailHandler)
+	e.GET("/about", middleware.AuthenticationMiddleware(), aboutHandler)
+	e.GET("/resource", middleware.AuthenticationMiddleware(), resourceHandler)
+	e.GET("/timeline", middleware.AuthenticationMiddleware(), timelineHandler)
 	e.GET("/login", loginHandler)
 	e.GET("/register", registerHandler)
-	e.GET("/404", errorHandler)
+	e.GET("/404", ErrorHandler)
+	e.GET("/errors", ErrorsHandler)
 }
 func indexHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "home.html", gin.H{
@@ -58,8 +60,14 @@ func registerHandler(c *gin.Context) {
 	})
 }
 
-func errorHandler(c *gin.Context) {
+func ErrorHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "404.html", gin.H{
+		"title": "Main website",
+	})
+}
+
+func ErrorsHandler(c *gin.Context) {
+	c.HTML(http.StatusOK, "errors.html", gin.H{
 		"title": "Main website",
 	})
 }

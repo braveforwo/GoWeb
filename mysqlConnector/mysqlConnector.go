@@ -17,7 +17,7 @@ func init() {
 		fmt.Println(db)
 	}
 	db.DB().SetMaxIdleConns(10)
-	db.DB().SetMaxOpenConns(10)
+	db.DB().SetMaxOpenConns(100)
 	db.DB().SetConnMaxLifetime(time.Hour)
 	db.SingularTable(true)
 }
