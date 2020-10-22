@@ -2,6 +2,9 @@ package routers
 
 import (
 	"GoWeb/config/middleware"
+	"GoWeb/domain"
+	"GoWeb/server/impl"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -17,6 +20,8 @@ func LoadHtml(e *gin.Engine) {
 	e.GET("/register", registerHandler)
 	e.GET("/404", ErrorHandler)
 	e.GET("/errors", ErrorsHandler)
+	e.GET("/markdown", markdownHandler)
+	e.POST("/articleList", articleListHandler)
 }
 func indexHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "home.html", gin.H{
@@ -70,4 +75,23 @@ func ErrorsHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "errors.html", gin.H{
 		"title": "Main website",
 	})
+}
+func markdownHandler(c *gin.Context) {
+	c.HTML(http.StatusOK, "markdown.html", gin.H{
+		"title": "Main website",
+	})
+}
+
+func articleListHandler(c *gin.Context) {
+	var articleSearchCondition domain.ArticleSearchCondition
+	if err := c.ShouldBind(&articleSearchCondition); err != nil {
+		fmt.Println(err)
+	}
+	searchArticleServiceImpl := impl.SearchArticleServiceImpl{}
+	err, articlelist := searchArticleServiceImpl.SearchArticleService(&articleSearchCondition)
+	if err != nil {
+		c.HTML(http.StatusOK, "articlelist.html", articlelist)
+		return
+	}
+	c.HTML(http.StatusOK, "articlelist.html", articlelist)
 }

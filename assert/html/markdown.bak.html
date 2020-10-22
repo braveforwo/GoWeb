@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="shortcut icon" href="assert/images/Logo_40.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="assert/plug/markdown/editor/css/editormd.css"/>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<script src="assert/libs/jquery-1.12.4/jquery.min.js"></script>
+<script src="assert/libs/jquery-form/jquery.form.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="assert/plug/markdown/editor/editormd.js"></script>
+<form id="formBlog" action="/uploadArticle" method="post">
+    <input id="blog_title" name="title" value="" style="display: none;">
+    <input  id="articletype" name="articletype" value="" style="display: none;">
+    <textarea id="blog_md" name="md" value="" style="display: none;"></textarea>
+    <textarea id="blog_html" name="html" value="" style="display: none;"></textarea>
+</form>
+    <div >
+        <blockquote class="layui-elem-quote sitemap layui-breadcrumb shadow">
+            <a href="index" title="网站首页">网站首页</a>
+            <span>&gt;</span>
+            <a><cite>编辑文章</cite></a>
+        </blockquote>
+    <div style="margin-bottom:20px " class="row">
+    <div class="col-lg-10 col-md-offset-1">
+        <div class="input-group">
+            <input type="text" id="art-head" name="art-head" class="form-control">
+            <span class="input-group-btn">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                                  发布文章
+                        </button>
+            </span>
+        </div><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="inputarticletype" name="inputarticletype" class="form-control" placeholder="输入文章的类型，eg:java">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary post-article">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.row -->
+      <div id="layout">
+    <div id="test-editormd">
+        <textarea style="display:none;"></textarea>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        testEditor = editormd("test-editormd", {
+            width: "90%",
+            height: 640,
+            markdown : "",
+            saveHTMLToTextarea: true, //开启保存HTML文件
+            path : 'assert/plug/markdown/editor/lib/',
+            //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为 true
+            //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为 true
+            //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为 true
+            //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为 0.1
+            //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为 #fff
+            imageUpload : true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : "/upload",
+
+            /*
+             上传的后台只需要返回一个 JSON 数据，结构如下：
+             {
+                success : 0 | 1,           // 0 表示上传失败，1 表示上传成功
+                message : "提示的信息，上传成功或上传失败及错误信息等。",
+                url     : "图片地址"        // 上传成功时才返回
+             }
+             */
+        });
+    });
+    $('.post-article').click(function() {
+        $("#formBlog")[0].reset();//清空表单数据，避免上次数据干扰
+        $("#blog_title").val($("#art-head").val());
+        $("#blog_md").val(testEditor.getMarkdown());//md格式内容，使用md的js获取
+        $("#blog_html").val(testEditor.getHTML());
+        $("#articletype").val($("#inputarticletype").val())
+        $("#formBlog").ajaxSubmit({
+            success : function(da) {
+                alert(da.msg)
+                $(".close-modal").click()
+            }
+        });
+    });
+</script>
+</body>
+</html>

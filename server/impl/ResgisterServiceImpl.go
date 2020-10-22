@@ -1,8 +1,8 @@
 package impl
 
 import (
+	"GoWeb/connector"
 	"GoWeb/domain"
-	"GoWeb/mysqlConnector"
 	"errors"
 )
 
@@ -10,7 +10,7 @@ type ResgisterServiceImpl struct {
 }
 
 func (rsi ResgisterServiceImpl) Register(user *domain.User) error {
-	db := mysqlConnector.GetDBConn()
+	db := connector.GetDBConn()
 	var searchUser domain.User
 	db.Where("phonenumber = ?", user.Phonenumber).First(&searchUser)
 	if searchUser.Id > 0 {

@@ -10,11 +10,14 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 
 func LoadServer(e *gin.Engine) {
 	e.POST("/registerService", registerServiceHandler)
 	e.POST("/loginService", loginServiceHandler)
+	e.POST("/upload", uploadServiceHandler)
+	e.POST("/uploadArticle", uploadArticleServiceHandler)
 }
 
 func registerServiceHandler(c *gin.Context) {
@@ -52,6 +55,7 @@ func loginServiceHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
+	fmt.Println(json)
 	login := impl.LoginServiceImpl{}
 	if err := login.Login(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
@@ -61,4 +65,47 @@ func loginServiceHandler(c *gin.Context) {
 	session.Set("user", json)
 	session.Save()
 	c.JSON(200, gin.H{"msg": "登录成功！"})
+}
+
+func uploadServiceHandler(c *gin.Context) {
+	file, _ := c.FormFile("editormd-image-file")
+	// 上传文件到指定的路径
+	err := c.SaveUploadedFile(file, "assert/uploadImages/"+file.Filename)
+	if err == nil {
+		responseMessage := domain.UploadResponseModel{}
+		responseMessage.Success = 1
+		responseMessage.Message = "上传成功"
+		responseMessage.Url = "assert/uploadImages/" + file.Filename
+		fmt.Println(responseMessage)
+		c.JSON(200, responseMessage)
+		return
+	}
+	responseMessage := domain.UploadResponseModel{}
+	responseMessage.Success = 0
+	responseMessage.Message = "上传失败"
+	fmt.Println(responseMessage)
+	fmt.Println(err)
+	c.JSON(200, responseMessage)
+}
+func uploadArticleServiceHandler(c *gin.Context) {
+	var article domain.Article
+	if err := c.Bind(&article); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	session := sessions.Default(c)
+	var user domain.User = session.Get("user").(domain.User)
+	fmt.Println(user)
+	article.UserId = user.Id
+	article.Pageviews = 0
+	t := time.Now()
+	timestr := t.Format("2006-01-02 15:04:05")
+	article.Time = timestr
+	uploadArticleServiceImpl := impl.UploadArticleServiceImpl{}
+	if err := uploadArticleServiceImpl.UploadArticle(&article); err != nil {
+		c.JSON(200, gin.H{"msg": err})
+		return
+	}
+	//fmt.Println(article)
+	c.JSON(200, gin.H{"msg": "上传成功！"})
 }
