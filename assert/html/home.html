@@ -215,13 +215,12 @@
                 type: "POST",
                 url: "/articleList",
                 contentType: "application/json;charset=utf-8",
-                data:JSON.stringify({"currentPage":0,"pageSize":8}),
+                data:JSON.stringify({"currentPage":1,"pageSize":8}),
                 dataType: "html",
                 success:function (message) {
                     $(".blog-main-left").html(message)
                 },
                 error:function (message) {
-                    alert(message.responseJSON.msg);
                 }
             });
         }

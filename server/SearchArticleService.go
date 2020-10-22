@@ -3,5 +3,6 @@ package server
 import "GoWeb/domain"
 
 type SearchArticleService interface {
-	SearchArticleService(articleSearchCondition *domain.ArticleSearchCondition) error
+	SearchArticleServiceFromMysql(articleSearchCondition *domain.ArticleSearchCondition) (error, []domain.Article)
+	SearchArticleServiceFromElastic(articleSearchCondition *domain.ArticleSearchCondition) (error, []domain.ElasticArticleModel)
 }

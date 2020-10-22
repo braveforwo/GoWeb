@@ -88,10 +88,12 @@ func articleListHandler(c *gin.Context) {
 		fmt.Println(err)
 	}
 	searchArticleServiceImpl := impl.SearchArticleServiceImpl{}
-	err, articlelist := searchArticleServiceImpl.SearchArticleService(&articleSearchCondition)
+	err, articlelist := searchArticleServiceImpl.SearchArticleServiceFromElastic(&articleSearchCondition)
 	if err != nil {
-		c.HTML(http.StatusOK, "articlelist.html", articlelist)
+		fmt.Println(err)
+		c.HTML(http.StatusBadRequest, "articlelist.html", gin.H{"articlelist": articlelist, "articleSearchCondition": articleSearchCondition, "alert": err})
 		return
 	}
-	c.HTML(http.StatusOK, "articlelist.html", articlelist)
+	fmt.Println(articleSearchCondition)
+	c.HTML(http.StatusOK, "articlelist.html", gin.H{"articlelist": articlelist, "articleSearchCondition": articleSearchCondition})
 }

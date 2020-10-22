@@ -5,34 +5,38 @@
     <title>Title</title>
 </head>
 <body>
-{{ range $i, $v := . }}
-    <div class="article shadow">
-        <div class="article-left">
-            <img src="assert/images/cover/201703181909057125.jpg" alt={{$v.Title}} />
-        </div>
-        <div class="article-right">
-            <div class="article-title">
-                <a href="detail">{{$v.Title}}</a>
+
+    {{ range $i, $v := .articlelist }}
+        <div class="article shadow">
+            <div class="article-left">
+                <img src="assert/images/cover/201703181909057125.jpg" alt={{$v.Title}} />
             </div>
-            <div class="article-abstract" style=" white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-               {{$v.Md}}
+            <div class="article-right">
+                <div class="article-title">
+                    <a href="detail">{{$v.Title}}</a>
+                </div>
+                <div class="article-abstract" style=" white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                   {{$v.Md}}
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="article-footer">
+                <span><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{$v.Time}}</span>
+                <span class="article-author"><i class="fa fa-user"></i>&nbsp;&nbsp;{{$v.Author}}</span>
+                <span><i class="fa fa-tag"></i>&nbsp;&nbsp;<a href="#">{{$v.ArticleType}}</a></span>
+                <span class="article-viewinfo"><i class="fa fa-eye"></i>&nbsp;{{$v.Pageviews}}</span>
+                <span class="article-viewinfo"><i class="fa fa-commenting"></i>&nbsp;{{$v.Comment}}</span>
             </div>
         </div>
-        <div class="clear"></div>
-        <div class="article-footer">
-            <span><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{$v.Time}}</span>
-            <span class="article-author"><i class="fa fa-user"></i>&nbsp;&nbsp;{{$v.Users.UserName}}</span>
-            <span><i class="fa fa-tag"></i>&nbsp;&nbsp;<a href="#">{{$v.ArticleType}}</a></span>
-            <span class="article-viewinfo"><i class="fa fa-eye"></i>&nbsp;{{$v.Pageviews}}</span>
-            <span class="article-viewinfo"><i class="fa fa-commenting"></i>&nbsp;0</span>
-        </div>
-    </div>
-{{end}}
+    {{end}}
+
     <div style="margin-left: 45%">
-        <button type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+        <button id="prePage" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
             <i class="layui-icon">&#xe603;</i>
         </button>
-        <span class="currentPage">0</span>
+        <span class="currentPage">{{.articleSearchCondition.CurrentPage}}</span>
+        <span>/</span>
+        <span class="allPage">{{.articleSearchCondition.AllPageSize}}</span>
         <button id="nextPage" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
             <i class="layui-icon">&#xe602;</i>
         </button>
@@ -42,15 +46,41 @@
     <script>
         $("#nextPage").click(function(){
             //trigger 事件执行完后，浏览器会为submit按钮获得焦点
+            var  currentPage=parseInt($(".currentPage").text())
+            var articleSearchCondition={}
+            articleSearchCondition["currentPage"]=currentPage+1
+            articleSearchCondition["pageSize"]=8
             $.ajax({
-                type: "GET",
-                url: "/articlelist",
+                type: "POST",
+                url: "/articleList",
                 dataType: "html",
+                contentType: "application/json;charset=utf-8",
+                data:JSON.stringify(articleSearchCondition),
                 success:function (message) {
                     $(".blog-main-left").html(message)
                 },
                 error:function (message) {
-                    alert(message.responseJSON.msg);
+
+                }
+            });
+
+        });
+        $("#prePage").click(function(){
+            //trigger 事件执行完后，浏览器会为submit按钮获得焦点
+            var  currentPage=parseInt($(".currentPage").text())
+            var articleSearchCondition={}
+            articleSearchCondition["currentPage"]=currentPage-1
+            articleSearchCondition["pageSize"]=8
+            $.ajax({
+                type: "POST",
+                url: "/articleList",
+                dataType: "html",
+                contentType: "application/json;charset=utf-8",
+                data:JSON.stringify(articleSearchCondition),
+                success:function (message) {
+                    $(".blog-main-left").html(message)
+                },
+                error:function (message) {
                 }
             });
 
