@@ -460,19 +460,19 @@ body {
         transition: all 0.3s linear;
     }
 
-    .article > .article-left {
-        width: 25%;
-        float: left;
-    }
+    /*.article > .article-left {*/
+        /*width: 25%;*/
+        /*float: left;*/
+    /*}*/
 
-        .article > .article-left > img {
-            width: 100%;
-            height: auto;
-        }
+        /*.article > .article-left > img {*/
+            /*width: 100%;*/
+            /*height: auto;*/
+        /*}*/
 
     .article > .article-right {
-        width: 73%;
-        float: right;
+        width: 100%;
+        /*float: right;*/
         padding-left: 2%;
     }
 

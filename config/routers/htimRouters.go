@@ -35,8 +35,26 @@ func articleHandler(c *gin.Context) {
 	})
 }
 func detailHandler(c *gin.Context) {
+	var elasticArticleModel domain.ElasticArticleModel
+	if err := c.ShouldBind(&elasticArticleModel); err != nil {
+		c.HTML(http.StatusOK, "detail.html", gin.H{"article": nil, "msg": err})
+		return
+	}
+	var article domain.Article
+	var err error
+	searchArticleService := impl.SearchArticleServiceImpl{}
+	if err, article = searchArticleService.UpdateArticlePageViewsToMysql(&elasticArticleModel); err != nil {
+		fmt.Println(err)
+		return
+	}
+	elasticArticleModel.Pageviews = article.Pageviews
+	if err = searchArticleService.UpdateArticlePageViewsToElastic(&elasticArticleModel); err != nil {
+		fmt.Println(err)
+		return
+	}
 	c.HTML(http.StatusOK, "detail.html", gin.H{
-		"title": "Main website",
+		"article": article,
+		"msg":     err,
 	})
 }
 func aboutHandler(c *gin.Context) {
@@ -87,6 +105,7 @@ func articleListHandler(c *gin.Context) {
 	if err := c.ShouldBind(&articleSearchCondition); err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println(articleSearchCondition)
 	searchArticleServiceImpl := impl.SearchArticleServiceImpl{}
 	err, articlelist := searchArticleServiceImpl.SearchArticleServiceFromElastic(&articleSearchCondition)
 	if err != nil {
@@ -94,6 +113,5 @@ func articleListHandler(c *gin.Context) {
 		c.HTML(http.StatusBadRequest, "articlelist.html", gin.H{"articlelist": articlelist, "articleSearchCondition": articleSearchCondition, "alert": err})
 		return
 	}
-	fmt.Println(articleSearchCondition)
 	c.HTML(http.StatusOK, "articlelist.html", gin.H{"articlelist": articlelist, "articleSearchCondition": articleSearchCondition})
 }

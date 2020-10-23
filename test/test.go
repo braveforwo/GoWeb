@@ -41,7 +41,7 @@ func create(client *elastic.Client) {
 }
 func gets(client *elastic.Client) {
 	//通过id查找
-	get1, err := client.Get().Index("articlelibrary").Type("article").Id("\u0001").Do(context.Background())
+	get1, err := client.Get().Index("articlelibrary").Type("article").Id(string(1)).Do(context.Background())
 	if err != nil {
 		panic(err)
 	}
@@ -92,5 +92,5 @@ func queryAll(client *elastic.Client) {
 	printEmployee(res, err)
 }
 func main() {
-	queryAll(connector.GetElasticConn())
+	create(connector.GetElasticConn())
 }

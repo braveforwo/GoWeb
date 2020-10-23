@@ -37,6 +37,45 @@ func (uas SearchArticleServiceImpl) SearchArticleServiceFromElastic(articleSearc
 	return queryByCurrentCurrentPageAndSearchContext(elasticConn, articleSearchCondition)
 }
 
+func (uas SearchArticleServiceImpl) SearchArticleByIdFromMysql(elasticArticleModel *domain.ElasticArticleModel) (error, domain.Article) {
+	var article domain.Article
+	db := connector.GetDBConn()
+	if err := db.Where("id = ?", elasticArticleModel.Id).Preload("Users").Find(&article).Error; err != nil {
+		return err, article
+	}
+	return nil, article
+
+}
+
+func (uas SearchArticleServiceImpl) UpdateArticlePageViewsToMysql(elasticArticleModel *domain.ElasticArticleModel) (error, domain.Article) {
+	db := connector.GetDBConn()
+	var article domain.Article
+	tx := db.Begin()
+	if err := tx.Exec("update article set pageviews=pageviews+1 where id = ?", elasticArticleModel.Id).
+		Where("id = ?", elasticArticleModel.Id).Preload("Users").
+		Find(&article).Error; err != nil {
+		tx.Rollback()
+		return err, article
+	}
+	tx.Commit()
+	return nil, article
+}
+
+func (uas SearchArticleServiceImpl) UpdateArticlePageViewsToElastic(elasticArticleModel *domain.ElasticArticleModel) error {
+	client := connector.GetElasticConn()
+	elasticArticleModel.Pageviews = elasticArticleModel.Pageviews + 1
+	_, err := client.Update().
+		Index("articlelibrary").
+		Type("article").
+		Id(string(elasticArticleModel.Id)).
+		Doc(map[string]interface{}{"Pageviews": elasticArticleModel.Pageviews}).
+		Do(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func queryByCurrentPage(client *elastic.Client, articleSearchCondition *domain.ArticleSearchCondition) (error, []domain.ElasticArticleModel) {
 	articleSearchCondition.AllPageSize = int(math.Ceil(float64(queryCount(client, articleSearchCondition)) / float64(articleSearchCondition.PageSize)))
 	if articleSearchCondition.CurrentPage > articleSearchCondition.AllPageSize {

@@ -8,12 +8,12 @@
 
     {{ range $i, $v := .articlelist }}
         <div class="article shadow">
-            <div class="article-left">
-                <img src="assert/images/cover/201703181909057125.jpg" alt={{$v.Title}} />
-            </div>
+            {{/*<div class="article-left">*/}}
+                {{/*<img src="assert/images/cover/201703181909057125.jpg" alt={{$v.Title}} />*/}}
+            {{/*</div>*/}}
             <div class="article-right">
                 <div class="article-title">
-                    <a href="detail">{{$v.Title}}</a>
+                    <a id="gotodetail" href="detail?id={{$v.Id}}">{{$v.Title}}</a>
                 </div>
                 <div class="article-abstract" style=" white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                    {{$v.Md}}

@@ -106,6 +106,11 @@ func uploadArticleServiceHandler(c *gin.Context) {
 		c.JSON(200, gin.H{"msg": err})
 		return
 	}
+	if err := uploadArticleServiceImpl.UploadArticleToElastic(&article); err != nil {
+		c.JSON(200, gin.H{"msg": err})
+		return
+	}
+
 	//fmt.Println(article)
 	c.JSON(200, gin.H{"msg": "上传成功！"})
 }
