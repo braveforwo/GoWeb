@@ -10,9 +10,9 @@ import (
 )
 
 func LoadHtml(e *gin.Engine) {
-	e.GET("/index", middleware.AuthenticationMiddleware(), indexHandler)
-	e.GET("/article", middleware.AuthenticationMiddleware(), articleHandler)
-	e.GET("/detail", middleware.AuthenticationMiddleware(), detailHandler)
+	e.GET("/index", indexHandler)
+	e.GET("/article", articleHandler)
+	e.GET("/detail", detailHandler)
 	e.GET("/about", middleware.AuthenticationMiddleware(), aboutHandler)
 	e.GET("/resource", middleware.AuthenticationMiddleware(), resourceHandler)
 	e.GET("/timeline", middleware.AuthenticationMiddleware(), timelineHandler)
@@ -20,8 +20,9 @@ func LoadHtml(e *gin.Engine) {
 	e.GET("/register", registerHandler)
 	e.GET("/404", ErrorHandler)
 	e.GET("/errors", ErrorsHandler)
-	e.GET("/markdown", markdownHandler)
+	e.GET("/markdown", middleware.AuthenticationMiddleware(), markdownHandler)
 	e.POST("/articleList", articleListHandler)
+	e.GET("/modifyInformation", modifyInformationHandler)
 }
 func indexHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "home.html", gin.H{
@@ -114,4 +115,9 @@ func articleListHandler(c *gin.Context) {
 		return
 	}
 	c.HTML(http.StatusOK, "articlelist.html", gin.H{"articlelist": articlelist, "articleSearchCondition": articleSearchCondition})
+}
+func modifyInformationHandler(c *gin.Context) {
+	c.HTML(http.StatusOK, "modifyInformation.html", gin.H{
+		"title": "Main website",
+	})
 }

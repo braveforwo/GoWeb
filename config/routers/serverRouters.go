@@ -16,8 +16,10 @@ import (
 func LoadServer(e *gin.Engine) {
 	e.POST("/registerService", registerServiceHandler)
 	e.POST("/loginService", loginServiceHandler)
-	e.POST("/upload", uploadServiceHandler)
-	e.POST("/uploadArticle", uploadArticleServiceHandler)
+	e.POST("/upload", middleware.AuthenticationMiddleware(), uploadServiceHandler)
+	e.POST("/uploadArticle", middleware.AuthenticationMiddleware(), uploadArticleServiceHandler)
+	e.POST("/getUserMessage", getUserMessageServiceHandler)
+	e.POST("/logOut", middleware.AuthenticationMiddleware(), logOutServiceHandler)
 }
 
 func registerServiceHandler(c *gin.Context) {
@@ -87,6 +89,7 @@ func uploadServiceHandler(c *gin.Context) {
 	fmt.Println(err)
 	c.JSON(200, responseMessage)
 }
+
 func uploadArticleServiceHandler(c *gin.Context) {
 	var article domain.Article
 	if err := c.Bind(&article); err != nil {
@@ -113,4 +116,24 @@ func uploadArticleServiceHandler(c *gin.Context) {
 
 	//fmt.Println(article)
 	c.JSON(200, gin.H{"msg": "上传成功！"})
+}
+
+func getUserMessageServiceHandler(c *gin.Context) {
+	session := sessions.Default(c)
+	var user domain.User
+	if session.Get("user") != nil {
+		user = session.Get("user").(domain.User)
+	}
+	if user.UserName != "" {
+		c.JSON(200, gin.H{"msg": user.UserName})
+		return
+	}
+	c.JSON(400, gin.H{"msg": "获取个人信息失败！"})
+}
+
+func logOutServiceHandler(c *gin.Context) {
+	session := sessions.Default(c)
+	session.Clear()
+	session.Save()
+	c.JSON(200, gin.H{"msg": "成功退出登录！"})
 }

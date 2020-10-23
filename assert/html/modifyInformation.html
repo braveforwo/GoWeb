@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="assert/libs/jquery-1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="assert/plug/bootstrap-fileinput-5.1.2/css/fileinput.css" rel="stylesheet" />
+    <script src="assert/plug/bootstrap-fileinput-5.1.2/js/fileinput.js"></script>
+</head>
+<body>
+<script>
+    $("#uploadAvatar").fileinput({
+        language : 'zh', //设置语言
+        uploadUrl : "attachment/saveAttachments.do", //文件上传路径
+        showUpload : true, //是否显示上传按钮
+        dropZoneEnabled:false,
+        autoReplace:true,
+        allowedFileExtensions : [ 'jpg', 'png', 'jpeg' ], //允许上传文件类型
+        maxFileSize : 20000, //上传文件最大大小
+        maxFileCount : 3, //允许同时上传文件的数量
+        maxFilesNum : 3,//上传最大的文件数量
+    }).on("filebatchuploadsuccess", function (event, data, previewId, index) {    //一个文件上传成功
+        alert(data.response.ids);
+        console.log('文件上传成功！'+data.response.ids);
+
+    })
+</script>
+</body>
+</html>

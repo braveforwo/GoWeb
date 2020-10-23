@@ -21,21 +21,23 @@
     <link href="assert/plug/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <!--全局样式表-->
     <link href="assert/css/global.css" rel="stylesheet" />
+    <link href="assert/plug/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
     <!-- 本页样式表 -->
     <link href="assert/css/home.css" rel="stylesheet" />
     <script src="assert/libs/jquery-1.12.4/jquery.min.js"></script>
+    <script src="assert/plug/layui/lay/modules/layer.js"></script>
 </head>
 <body>
     <!-- 导航 -->
     <nav class="blog-nav layui-header">
         <div class="blog-container">
             <!-- QQ互联登陆 -->
-            <a href="javascript:;" class="blog-user">
-                <i class="fa fa-qq"></i>
-            </a>
-            <a href="javascript:;" class="blog-user layui-hide">
-                <img src="assert/images/Absolutely.jpg" alt="Absolutely" title="Absolutely" />
-            </a>
+            {{/*<a href="javascript:;" class="blog-user">*/}}
+                {{/*<i class="fa fa-qq"></i>*/}}
+            {{/*</a>*/}}
+            {{/*<a href="javascript:;" class="blog-user layui-hide">*/}}
+                {{/*<img src="assert/images/Absolutely.jpg" alt="Absolutely" title="Absolutely" />*/}}
+            {{/*</a>*/}}
             <!-- 不落阁 -->
             <a class="blog-logo" href="index">不落阁</a>
             <!-- 导航菜单 -->
@@ -57,6 +59,14 @@
                 </li>
                 <li class="layui-nav-item">
                     <a href="about"><i class="fa fa-info fa-fw"></i>&nbsp;关于本站</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a id="userName" href="/login">请登录！</a>
+                    <dl class="layui-nav-child">
+                        <dd><a id="modifyInformation" href="javascript:;">修改信息</a></dd>
+                        <dd><a href="javascript:;">我的文章</a></dd>
+                        <dd><a id="logOut" href="javascript:;">退出登录</a></dd>
+                    </dl>
                 </li>
             </ul>
             <!-- 手机和平板的导航开关 -->
@@ -224,6 +234,31 @@
                 }
             });
         }
+        $.ajax({
+                type: "POST",
+                url: "/getUserMessage",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success:function (message) {
+                     $("#userName").text(message.msg)
+                },
+                error:function (message) {
+                }
+            });
+        $("#logOut").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/logOut",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success:function (message) {
+                    $("#userName").text("请登录！")
+                },
+                error:function (message) {
+                    alert(message)
+                }
+            });
+        })
     </script>
     <!-- layui.js -->
     <script src="assert/plug/layui/layui.js"></script>
@@ -231,5 +266,6 @@
     <script src="assert/js/global.js"></script>
     <!-- 本页脚本 -->
     <script src="assert/js/home.js"></script>
+    <script src="assert/plug/layui/lay/modules/upload.js"></script>
 </body>
 </html>
