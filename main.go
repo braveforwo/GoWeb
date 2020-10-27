@@ -23,7 +23,6 @@ func main() {
 	r.LoadHTMLGlob("assert/html/*")
 	//设置静态资源路径
 	r.StaticFS("assert", http.Dir("./assert"))
-
 	//Server路由
 	routers.LoadServer(r)
 	//html路由

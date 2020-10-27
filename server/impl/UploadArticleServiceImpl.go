@@ -4,7 +4,6 @@ import (
 	"GoWeb/connector"
 	"GoWeb/domain"
 	"context"
-	"fmt"
 )
 
 type UploadArticleServiceImpl struct {
@@ -24,7 +23,7 @@ func (uas UploadArticleServiceImpl) UploadArticle(article *domain.Article) error
 func (uas UploadArticleServiceImpl) UploadArticleToElastic(article *domain.Article) error {
 	client := connector.GetElasticConn()
 	var elsticArticleModel domain.ElasticArticleModel
-	fmt.Println(article.Id)
+	//fmt.Println(article.Id)
 	elsticArticleModel.Id = article.Id
 	elsticArticleModel.Time = article.Time
 	elsticArticleModel.Pageviews = article.Pageviews

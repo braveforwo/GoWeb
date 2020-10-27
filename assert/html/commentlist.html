@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul class="blog-comment">
+{{ range $i, $v := .comments }}
+    <li>
+        <div class="comment-parent">
+            <img src="assert/images/Absolutely.jpg" alt="absolutely" />
+            <div class="info">
+                <span class="username">{{$v.Users.UserName}}</span>
+                <span class="time">{{$v.Time}}</span>
+            </div>
+            <div class="content">
+            {{$v.Comments}}
+            </div>
+        </div>
+    </li>
+{{end}}
+</ul>
+<div style="margin-left: 40%">
+    <button id="prePage" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+        <i class="layui-icon">&#xe603;</i>
+    </button>
+    <span class="currentPage">{{.commentPageCondition.CurrentPage}}</span>
+    <span>/</span>
+    <span class="allPage">{{.commentPageCondition.AllPageSize}}</span>
+    <button id="nextPage" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+        <i class="layui-icon">&#xe602;</i>
+    </button>
+</div>
+<script>
+    $("#nextPage").click(function(){
+        var articleId=$("#articleId").val()
+        var currentPage=parseInt($(".currentPage").text())
+        commentPageCondition={}
+        commentPageCondition["articleId"]=parseInt(articleId)
+        commentPageCondition["pageSize"]=5
+        commentPageCondition["currentPage"]=currentPage+1
+        $.ajax({
+            type: "POST",
+            url: "/commentList",
+            dataType: "html",
+            contentType: "application/json;charset=utf-8",
+            data:JSON.stringify(commentPageCondition),
+            success:function (message) {
+                $("#latestComment").html(message)
+            },
+            error:function (message) {
+
+            }
+        });
+
+    });
+    $("#prePage").click(function(){
+        var articleId=$("#articleId").val()
+        var currentPage=parseInt($(".currentPage").text())
+        commentPageCondition={}
+        commentPageCondition["articleId"]=parseInt(articleId)
+        commentPageCondition["pageSize"]=5
+        commentPageCondition["currentPage"]=currentPage-1
+        $.ajax({
+            type: "POST",
+            url: "/commentList",
+            dataType: "html",
+            contentType: "application/json;charset=utf-8",
+            data:JSON.stringify(commentPageCondition),
+            success:function (message) {
+                $("#latestComment").html(message)
+            },
+            error:function (message) {
+
+            }
+        });
+
+
+    });
+</script>
+</body>
+</html>

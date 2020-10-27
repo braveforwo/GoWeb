@@ -23,6 +23,7 @@ func LoadHtml(e *gin.Engine) {
 	e.GET("/markdown", middleware.AuthenticationMiddleware(), markdownHandler)
 	e.POST("/articleList", articleListHandler)
 	e.GET("/modifyInformation", modifyInformationHandler)
+	e.POST("/commentList", commentListHandler)
 }
 func indexHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "home.html", gin.H{
@@ -106,7 +107,7 @@ func articleListHandler(c *gin.Context) {
 	if err := c.ShouldBind(&articleSearchCondition); err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(articleSearchCondition)
+	//fmt.Println(articleSearchCondition)
 	searchArticleServiceImpl := impl.SearchArticleServiceImpl{}
 	err, articlelist := searchArticleServiceImpl.SearchArticleServiceFromElastic(&articleSearchCondition)
 	if err != nil {
@@ -119,5 +120,31 @@ func articleListHandler(c *gin.Context) {
 func modifyInformationHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "modifyInformation.html", gin.H{
 		"title": "Main website",
+	})
+}
+
+func commentListHandler(c *gin.Context) {
+	var commentPageCondition domain.CommentPageCondition
+	var comments []domain.Comment
+	var err error
+	if err = c.ShouldBind(&commentPageCondition); err != nil {
+		fmt.Println(err)
+		c.HTML(http.StatusBadRequest, "commentlist.html", gin.H{
+			"title": "Main website",
+		})
+		return
+	}
+	commentService := impl.CommentServiceImpl{}
+	if err, comments = commentService.GetCommentByArticleIdAndPageFromMysql(&commentPageCondition); err != nil {
+		fmt.Println(err)
+		c.HTML(http.StatusBadRequest, "commentlist.html", gin.H{
+			"title": "Main website",
+		})
+		return
+	}
+
+	c.HTML(http.StatusOK, "commentlist.html", gin.H{
+		"commentPageCondition": commentPageCondition,
+		"comments":             comments,
 	})
 }

@@ -5,7 +5,6 @@ import (
 	"GoWeb/domain"
 	"context"
 	"errors"
-	"fmt"
 	"github.com/olivere/elastic/v7"
 	"math"
 	"reflect"
@@ -100,7 +99,7 @@ func queryByCurrentPage(client *elastic.Client, articleSearchCondition *domain.A
 
 func queryByCurrentCurrentPageAndSearchContext(client *elastic.Client, articleSearchCondition *domain.ArticleSearchCondition) (error, []domain.ElasticArticleModel) {
 	articleSearchCondition.AllPageSize = int(math.Ceil(float64(queryCount(client, articleSearchCondition)) / float64(articleSearchCondition.PageSize)))
-	fmt.Println(articleSearchCondition.AllPageSize)
+	//fmt.Println(articleSearchCondition.AllPageSize)
 	if articleSearchCondition.CurrentPage > articleSearchCondition.AllPageSize {
 		articleSearchCondition.CurrentPage = articleSearchCondition.AllPageSize
 		return errors.New("没有下一页了！"), nil
