@@ -43,6 +43,7 @@ func registerServiceHandler(c *gin.Context) {
 	resgister := impl.ResgisterServiceImpl{}
 	if err := resgister.Register(&json); err != nil {
 		middleware.LogerMiddlewareCom(err.Error())
+		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}

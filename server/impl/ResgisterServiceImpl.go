@@ -11,8 +11,9 @@ type ResgisterServiceImpl struct {
 
 func (rsi ResgisterServiceImpl) Register(user *domain.User) error {
 	db := connector.GetDBConn()
+
 	var searchUser domain.User
-	db.Where("phonenumber = ?", user.Phonenumber).First(&searchUser)
+	db.Where("phonenumber = ?", user.Phonenumber).Find(&searchUser)
 	if searchUser.Id > 0 {
 		return errors.New("手机号已被注册")
 	}

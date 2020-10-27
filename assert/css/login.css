@@ -1,3 +1,4 @@
+
 *{
 	margin: 0;
 	padding: 0;
@@ -26,7 +27,7 @@ a{
 	left: 0;
 }
 #wrapper{
-	width:300px;
+	width:50%;
 	margin:0 auto;
 	padding-top:30px;
 	position: relative;
@@ -63,14 +64,14 @@ h2{
 }
 .switch_btn{
 	color:#878787;
-	text-decoration: none; 
+	text-decoration: none;
 }
 .group_input {
 	position: relative;
-	text-align: left;
+	text-align: center;
 }
 .group_input input{
-	width: 274px;
+	width: 100%;
 	padding: 16px 12px;
 	margin: -1px;
 	border:1px solid #d5d5d5;
@@ -78,12 +79,12 @@ h2{
 	background-color: #fff;
 }
 .group_input li {
-	width: 800px;
+	width: 100%;
 	position: relative;
 }
 .group_input li .msg {
     position: absolute;
-    left: 306px;  
+    left: 100%;
 }
 .group_input li .msg.onError {
 	height: 50px;
@@ -150,7 +151,7 @@ h2{
 }
 
 .submit_btn{
-	width: 100%;
+	width: 105%;
 	box-shadow: none;
 	border:0;
 	line-height: 45px;
@@ -193,7 +194,7 @@ h2{
 	bottom:0;
 	overflow: hidden;
 	z-index: 1;
-	
+
 }
 .QRcode img{
 	margin:30px;
