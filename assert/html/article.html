@@ -1,12 +1,4 @@
-﻿<!--
-    
- @Name：不落阁整站模板源码
- @Author：Absolutely
- @Site：http://www.lyblogs.cn
-
- -->
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -82,49 +74,49 @@
                                 <div class="search-keywords  shadow">
                                     <input type="text" id="searchContext" name="keywords" lay-verify="required" placeholder="输入关键词搜索" autocomplete="off" class="layui-input">
                                 </div>
-                                <button style="display: inline" id="search" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+                                <button id="search" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
                                     <i class="layui-icon">&#xe615;</i>
                                 </button>
                             </div>
                     </div>
-                    <div class="article-category shadow">
-                        <div class="article-category-title">分类导航</div>
-                        <a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">ASP.NET MVC</a>
-                        <a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">SQL Server</a>
-                        <a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">Entity Framework</a>
-                        <a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">Web前端</a>
-                        <a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">C#基础</a>
-                        <a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">杂文随笔</a>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="blog-module shadow">
-                        <div class="blog-module-title">作者推荐</div>
-                        <ul class="fa-ul blog-module-ul">
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">Web安全之跨站请求伪造CSRF</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">ASP.NET MVC 防范跨站请求伪造（CSRF）</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">C#基础知识回顾-扩展方法</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（一）（HTML篇）</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（二）（CSS篇）</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（三）（JS篇）</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">写了个Win10风格快捷菜单！</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">ASP.NET MVC自定义错误页</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">ASP.NET MVC制作404跳转（非302和200）</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">基于laypage的layui扩展模块（pagesize.js）！</a></li>
-                        </ul>
-                    </div>
-                    <div class="blog-module shadow">
-                        <div class="blog-module-title">随便看看</div>
-                        <ul class="fa-ul blog-module-ul">
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（一）（HTML篇）</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">ASP.NET MVC制作404跳转（非302和200）</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">ASP.NET MVC 防范跨站请求伪造（CSRF）</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（三）（JS篇）</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">基于laypage的layui扩展模块（pagesize.js）！</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（二）（CSS篇）</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">写了个Win10风格快捷菜单！</a></li>
-                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">常用正则表达式</a></li>
-                        </ul>
-                    </div>
+                    {{/*<div class="article-category shadow">*/}}
+                        {{/*<div class="article-category-title">分类导航</div>*/}}
+                        {{/*<a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">ASP.NET MVC</a>*/}}
+                        {{/*<a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">SQL Server</a>*/}}
+                        {{/*<a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">Entity Framework</a>*/}}
+                        {{/*<a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">Web前端</a>*/}}
+                        {{/*<a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">C#基础</a>*/}}
+                        {{/*<a href="javascript:layer.msg(&#39;切换到相应分类&#39;)">杂文随笔</a>*/}}
+                        {{/*<div class="clear"></div>*/}}
+                    {{/*</div>*/}}
+                    {{/*<div class="blog-module shadow">*/}}
+                        {{/*<div class="blog-module-title">作者推荐</div>*/}}
+                        {{/*<ul class="fa-ul blog-module-ul">*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">Web安全之跨站请求伪造CSRF</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">ASP.NET MVC 防范跨站请求伪造（CSRF）</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">C#基础知识回顾-扩展方法</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（一）（HTML篇）</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（二）（CSS篇）</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（三）（JS篇）</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">写了个Win10风格快捷菜单！</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">ASP.NET MVC自定义错误页</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">ASP.NET MVC制作404跳转（非302和200）</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">基于laypage的layui扩展模块（pagesize.js）！</a></li>*/}}
+                        {{/*</ul>*/}}
+                    {{/*</div>*/}}
+                    {{/*<div class="blog-module shadow">*/}}
+                        {{/*<div class="blog-module-title">随便看看</div>*/}}
+                        {{/*<ul class="fa-ul blog-module-ul">*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（一）（HTML篇）</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">ASP.NET MVC制作404跳转（非302和200）</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">ASP.NET MVC 防范跨站请求伪造（CSRF）</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（三）（JS篇）</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">基于laypage的layui扩展模块（pagesize.js）！</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">一步步制作时光轴（二）（CSS篇）</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">写了个Win10风格快捷菜单！</a></li>*/}}
+                            {{/*<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail">常用正则表达式</a></li>*/}}
+                        {{/*</ul>*/}}
+                    {{/*</div>*/}}
                     <!--右边悬浮 平板或手机设备显示-->
                     <div class="category-toggle"><i class="fa fa-chevron-left"></i></div>
                 </div>
@@ -144,6 +136,9 @@
         </li>
         <li class="layui-nav-item layui-this">
             <a href="article"><i class="fa fa-file-text fa-fw"></i>&nbsp;文章专栏</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="markdown"><i class="fa fa-file-text fa-fw"></i>&nbsp;编辑文章</a>
         </li>
         <li class="layui-nav-item">
             <a href="resource"><i class="fa fa-tags fa-fw"></i>&nbsp;资源分享</a>

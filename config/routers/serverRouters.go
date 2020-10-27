@@ -20,7 +20,7 @@ func LoadServer(e *gin.Engine) {
 	e.POST("/uploadArticle", middleware.AuthenticationMiddleware(), uploadArticleServiceHandler)
 	e.POST("/getUserMessage", getUserMessageServiceHandler)
 	e.POST("/logOut", middleware.AuthenticationMiddleware(), logOutServiceHandler)
-	e.POST("/commitComment", middleware.AuthenticationMiddleware(), commitCommentServiceHandler)
+	e.POST("/commitComment", commitCommentServiceHandler)
 }
 
 func registerServiceHandler(c *gin.Context) {
@@ -138,10 +138,16 @@ func logOutServiceHandler(c *gin.Context) {
 func commitCommentServiceHandler(c *gin.Context) {
 	var comment domain.Comment
 	if err := c.ShouldBind(&comment); err != nil {
-		c.JSON(200, gin.H{"msg": "参数错误！"})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "参数错误！"})
 		return
 	}
 	session := sessions.Default(c)
+	if session.Get("user") == nil {
+		if err := c.ShouldBind(&comment); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"msg": "请登录后再评论！"})
+			return
+		}
+	}
 	user := session.Get("user").(domain.User)
 	comment.Userid = user.Id
 	t := time.Now()
@@ -149,17 +155,17 @@ func commitCommentServiceHandler(c *gin.Context) {
 	comment.Time = timestr
 	commentService := impl.CommentServiceImpl{}
 	if err := commentService.CreateComment(&comment); err != nil {
-		c.JSON(200, gin.H{"msg": "提交失败！"})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "提交失败！"})
 		return
 	}
 	var article domain.Article
 	article.Id = comment.Articleid
 	if err := commentService.UpdateCommentNumToMysql(&article); err != nil {
-		c.JSON(200, gin.H{"msg": "提交失败！"})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "提交失败！"})
 		return
 	}
 	if err := commentService.UpdateCommentNumToElastic(&article); err != nil {
-		c.JSON(200, gin.H{"msg": "提交失败！"})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "提交失败！"})
 		return
 	}
 	c.JSON(200, gin.H{"msg": "提交成功！"})

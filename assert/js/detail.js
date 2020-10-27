@@ -24,7 +24,8 @@ layui.use(['layedit'], function () {
                 layer.msg("评论成功",{icon:1})
             },
             error:function (message) {
-                layer.msg("评论失败",{icon:5})
+                console.log(message)
+                layer.msg(message.responseJSON.msg,{icon:5})
             }
         });
     })
