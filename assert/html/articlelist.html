@@ -50,6 +50,7 @@
             var articleSearchCondition={}
             articleSearchCondition["currentPage"]=currentPage+1
             articleSearchCondition["pageSize"]=8
+            articleSearchCondition["searchContext"]=$("#searchContext").val()
             $.ajax({
                 type: "POST",
                 url: "/articleList",
@@ -71,6 +72,7 @@
             var articleSearchCondition={}
             articleSearchCondition["currentPage"]=currentPage-1
             articleSearchCondition["pageSize"]=8
+            articleSearchCondition["searchContext"]=$("#searchContext").val()
             $.ajax({
                 type: "POST",
                 url: "/articleList",

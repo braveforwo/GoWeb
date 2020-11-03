@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/olivere/elastic/v7"
 	"reflect"
+	"time"
 )
 
 //从数据库获取所有的articles并上传到elasticsearch中
@@ -90,6 +91,12 @@ func printEmployee(res *elastic.SearchResult, err error) {
 func queryAll(client *elastic.Client) {
 	res, err := client.Search("articlelibrary").Type("article").Size(2).From(2).Do(context.Background())
 	printEmployee(res, err)
+}
+
+func stringtotime() {
+	todayZero, _ := time.ParseInLocation("2006-01-02 15:04:05", "2020-10-21 15:32:56", time.Local)
+	todayZero1, _ := time.ParseInLocation("2006-01-02 15:04:05", "2020-10-22 15:32:56", time.Local)
+	fmt.Println(todayZero, todayZero1)
 }
 func main() {
 	create(connector.GetElasticConn())

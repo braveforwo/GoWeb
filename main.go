@@ -30,3 +30,7 @@ func main() {
 	r.Run(":8080")
 
 }
+
+func formatAsDate(s []string, index int) string {
+	return s[index]
+}

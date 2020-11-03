@@ -102,6 +102,7 @@ func uploadArticleServiceHandler(c *gin.Context) {
 	t := time.Now()
 	timestr := t.Format("2006-01-02 15:04:05")
 	article.Time = timestr
+	article.Users = user
 	uploadArticleServiceImpl := impl.UploadArticleServiceImpl{}
 	if err := uploadArticleServiceImpl.UploadArticle(&article); err != nil {
 		c.JSON(200, gin.H{"msg": err})

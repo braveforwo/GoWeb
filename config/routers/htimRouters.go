@@ -5,6 +5,7 @@ import (
 	"GoWeb/domain"
 	"GoWeb/server/impl"
 	"fmt"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -70,8 +71,13 @@ func resourceHandler(c *gin.Context) {
 	})
 }
 func timelineHandler(c *gin.Context) {
+	TimeLineService := impl.TimeLineServiceImpl{}
+	session := sessions.Default(c)
+	var user domain.User = session.Get("user").(domain.User)
+	_, articles := TimeLineService.GetAllTimeLineByUser(&user)
+	data := TimeLineService.ParseArticlesToTimeLine(articles)
 	c.HTML(http.StatusOK, "timeline.html", gin.H{
-		"title": "Main website",
+		"data": data,
 	})
 }
 func loginHandler(c *gin.Context) {
@@ -84,13 +90,11 @@ func registerHandler(c *gin.Context) {
 		"title": "Main website",
 	})
 }
-
 func ErrorHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "404.html", gin.H{
 		"title": "Main website",
 	})
 }
-
 func ErrorsHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "errors.html", gin.H{
 		"title": "Main website",
@@ -101,7 +105,6 @@ func markdownHandler(c *gin.Context) {
 		"title": "Main website",
 	})
 }
-
 func articleListHandler(c *gin.Context) {
 	var articleSearchCondition domain.ArticleSearchCondition
 	if err := c.ShouldBind(&articleSearchCondition); err != nil {
@@ -122,7 +125,6 @@ func modifyInformationHandler(c *gin.Context) {
 		"title": "Main website",
 	})
 }
-
 func commentListHandler(c *gin.Context) {
 	var commentPageCondition domain.CommentPageCondition
 	var comments []domain.Comment
