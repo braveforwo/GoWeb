@@ -37,7 +37,7 @@ func (csi CommentServiceImpl) GetCommentByArticleIdAndPageFromMysql(commentPageC
 	}
 	db := connector.GetDBConn()
 	if err := db.Where("articleid = ?", commentPageCondition.ArticleId).
-		Preload("Users").
+		Preload("UserInfo").Preload("Users").
 		Offset((commentPageCondition.CurrentPage - 1) * commentPageCondition.PageSize).
 		Limit(commentPageCondition.PageSize).Order("id desc").Find(&comments).Error; err != nil {
 		return err, comments

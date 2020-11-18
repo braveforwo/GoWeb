@@ -1,31 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; Charset=utf-8">
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>不落阁 - 关于本站</title>
+    <link rel="shortcut icon" href="assert/images/Logo_40.png" type="image/x-icon">
+    <!--Layui-->
+    <link href="assert/plug/layui/css/layui.css" rel="stylesheet" />
+    <!--font-awesome-->
+    <link href="assert/plug/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <!--全局样式表-->
+    <link href="assert/css/global.css" rel="stylesheet" />
+    <link href="assert/plug/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <!-- 本页样式表 -->
+    <link href="assert/css/about.css" rel="stylesheet" />
+    <link href="assert/css/home.css" rel="stylesheet" />
+    <style type="text/css">
+        .file{position:absolute;left:45%;cursor:pointer;border-color: orange;
+            filter:alpha(opacity:0);opacity: 0;width: 100px;height: 100px;z-index: 100}
+        .image{ position:absolute;left:45%;}
+    </style>
     <script src="assert/libs/jquery-1.12.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="assert/plug/bootstrap-fileinput-5.1.2/css/fileinput.css" rel="stylesheet" />
-    <script src="assert/plug/bootstrap-fileinput-5.1.2/js/fileinput.js"></script>
+    <script src="assert/libs/jquery-1.12.4/ajaxfileupload.js"></script>
 </head>
 <body>
+<input type="hidden" id="userid" value="{{.userinfo.UserId}}">
+<!-- 导航 -->
+<nav class="blog-nav layui-header">
+    <div class="blog-container">
+        <!-- 不落阁 -->
+        <a class="blog-logo" href="index">不落阁</a>
+        <!-- 导航菜单 -->
+        <!-- 手机和平板的导航开关 -->
+        <a class="blog-navicon" href="javascript:;">
+            <i class="fa fa-navicon"></i>
+        </a>
+    </div>
+</nav>
+<!-- 主体（一般只改变这里的内容） -->
+<div class="blog-body">
+    <div class="blog-container">
+        <blockquote class="layui-elem-quote sitemap layui-breadcrumb shadow">
+            <a href="index" title="网站首页">网站首页</a>
+            <a><cite>修改个人信息</cite></a>
+        </blockquote>
+        <div class="blog-main">
+            <div class="layui-tab layui-tab-brief shadow" lay-filter="tabAbout">
+                <div class="blogerinfo shadow" >
+                    <div class="blogerinfo-figure">
+                        <input type="file" name="avatar" class="file" id="image-input" />
+                        <img src="{{.userinfo.Avatar}}" width="100" height="100" alt="Absolutely" class="image" id="image"/>
+                    </div>
+                    {{/*<input type="file" name="avatars" class="files" id="image-inputs" />*/}}
+                    <p id="nickname" contenteditable="true" class="blogerinfo-nickname" style="margin-top: 100px">{{.userinfo.NickName}}</p>
+                    <p id="introduce" contenteditable="true" class="blogerinfo-introduce">{{.userinfo.SelfIntroduction}}</p>
+                    <p id="location" contenteditable="true" class="blogerinfo-location"><i class="fa fa-location-arrow"></i>&nbsp;{{.userinfo.Address}}</p>
+                    <button type="button" id="updateinformation" class="layui-btn layui-btn-fluid">确认</button>
+                    <hr />
+                    <div class="blogerinfo-contact">
+                        <a target="_blank" title="QQ交流" href="javascript:layer.msg('启动QQ会话窗口')"><i class="fa fa-qq fa-2x"></i></a>
+                        <a target="_blank" title="给我写信" href="javascript:layer.msg('启动邮我窗口')"><i class="fa fa-envelope fa-2x"></i></a>
+                        <a target="_blank" title="新浪微博" href="javascript:layer.msg('转到你的微博主页')"><i class="fa fa-weibo fa-2x"></i></a>
+                        <a target="_blank" title="码云" href="javascript:layer.msg('转到你的github主页')"><i class="fa fa-git fa-2x"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 底部 -->
+<footer class="blog-footer">
+    <p><span>Copyright</span><span>&copy;</span><span>2017</span><a href="http://www.lyblogs.cn">不落阁</a><span>Design By LY</span></p>
+    <p><a href="http://www.miibeian.gov.cn/" target="_blank">蜀ICP备16029915号-1</a></p>
+</footer>
+<!--侧边导航-->
+<ul class="layui-nav layui-nav-tree layui-nav-side blog-nav-left layui-hide" lay-filter="nav">
+    <li class="layui-nav-item">
+        <a href="index"><i class="fa fa-home fa-fw"></i>&nbsp;网站首页</a>
+    </li>
+    <li class="layui-nav-item">
+        <a href="article"><i class="fa fa-file-text fa-fw"></i>&nbsp;文章专栏</a>
+    </li>
+    <li class="layui-nav-item">
+        <a href="resource"><i class="fa fa-tags fa-fw"></i>&nbsp;资源分享</a>
+    </li>
+    <li class="layui-nav-item">
+        <a href="timeline"><i class="fa fa-road fa-fw"></i>&nbsp;点点滴滴</a>
+    </li>
+    <li class="layui-nav-item layui-this">
+        <a href="about"><i class="fa fa-info fa-fw"></i>&nbsp;关于本站</a>
+    </li>
+</ul>
+<!--分享窗体-->
+<div class="blog-share layui-hide">
+    <div class="blog-share-body">
+        <div style="width: 200px;height:100%;">
+            <div class="bdsharebuttonbox">
+                <a class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                <a class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+            </div>
+        </div>
+    </div>
+</div>
+{{/*<script src="assert/js/home.js"></script>*/}}
 <script>
-    $("#uploadAvatar").fileinput({
-        language : 'zh', //设置语言
-        uploadUrl : "attachment/saveAttachments.do", //文件上传路径
-        showUpload : true, //是否显示上传按钮
-        dropZoneEnabled:false,
-        autoReplace:true,
-        allowedFileExtensions : [ 'jpg', 'png', 'jpeg' ], //允许上传文件类型
-        maxFileSize : 20000, //上传文件最大大小
-        maxFileCount : 3, //允许同时上传文件的数量
-        maxFilesNum : 3,//上传最大的文件数量
-    }).on("filebatchuploadsuccess", function (event, data, previewId, index) {    //一个文件上传成功
-        alert(data.response.ids);
-        console.log('文件上传成功！'+data.response.ids);
-
+    $('#image-input').change(function () {
+        var file = $('#image-input')[0].files[0];
+        var formData = new FormData();
+        formData.append("avatar",file)
+        formData.append("userid",$("#userid").val())
+        console.log(formData)
+        $.ajax({
+            url: "/uploadAvatar",
+            type: "POST",
+            data: formData,
+            processData: false,  // 告诉jQuery不要去处理发送的数据
+            contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+            success: function(response,status,xhr){
+                $("#image").attr("src",response.url)
+                $("#image").attr("height",100)
+                $("#image").attr("width",100)
+              alert(response.message)
+            }
+        });
+        // $.ajaxFileUpload({
+        //     url: '/uploadAvatar', //用于文件上传的服务器端请求地址
+        //     secureuri: false, //一般设置为false
+        //     fileElementId: 'image-input', //文件上传空间的id属性
+        //     dataType: 'json', //返回值类型 一般设置为json
+        //     success: function (data, status) {
+        //               alert(data.message)
+        //     },
+        //     error: function (data, status, e) {
+        //         alert(e);
+        //     }
+        // })
+    })
+    $('#updateinformation').click(function () {
+        var userinfo={}
+        userinfo["userid"]=Number($('#userid').val())
+        userinfo["selfintroduction"]=$('#introduce').text()
+        userinfo["address"]=$('#location').text()
+        userinfo["nickname"]=$('#nickname').text()
+        console.log(userinfo);
+        $.ajax({
+            url: "/uploadInformation",
+            type: "POST",
+            data: JSON.stringify(userinfo),
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",   // 告诉jQuery不要去设置Content-Type请求头
+            success: function(response,status,xhr){
+                alert(response.message)
+            }
+        });
     })
 </script>
+<!--遮罩-->
+<div class="blog-mask animated layui-hide"></div>
+<!-- layui.js -->
+<script src="assert/plug/layui/layui.js"></script>
+<!-- 全局脚本 -->
+<script src="assert/js/global.js"></script>
+<!-- 本页脚本 -->
+<script src="assert/js/about.js"></script>
 </body>
 </html>

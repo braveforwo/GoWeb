@@ -9,7 +9,7 @@
 {{ range $i, $v := .comments }}
     <li>
         <div class="comment-parent">
-            <img src="assert/images/Absolutely.jpg" alt="absolutely" />
+            <img src="{{$v.UserInfo.Avatar}}" alt="absolutely" />
             <div class="info">
                 <span class="username">{{$v.Users.UserName}}</span>
                 <span class="time">{{$v.Time}}</span>

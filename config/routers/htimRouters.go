@@ -23,7 +23,7 @@ func LoadHtml(e *gin.Engine) {
 	e.GET("/errors", ErrorsHandler)
 	e.GET("/markdown", middleware.AuthenticationMiddleware(), markdownHandler)
 	e.POST("/articleList", articleListHandler)
-	e.GET("/modifyInformation", modifyInformationHandler)
+	e.GET("/modifyInformation", middleware.AuthenticationMiddleware(), modifyInformationHandler)
 	e.POST("/commentList", commentListHandler)
 }
 func indexHandler(c *gin.Context) {
@@ -121,9 +121,25 @@ func articleListHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "articlelist.html", gin.H{"articlelist": articlelist, "articleSearchCondition": articleSearchCondition})
 }
 func modifyInformationHandler(c *gin.Context) {
-	c.HTML(http.StatusOK, "modifyInformation.html", gin.H{
-		"title": "Main website",
-	})
+	session := sessions.Default(c)
+	var user domain.User = session.Get("user").(domain.User)
+	getInformationService := impl.GetInfomationServiceImpl{}
+	if userinfo, err := getInformationService.GetInfomationByUserId(user.Id); err != nil {
+		var userinfo domain.Userinfo = domain.Userinfo{}
+		userinfo.UserId = user.Id
+		userinfo.Avatar = "assert/images/Absolutely.jpg"
+		userinfo.Address = "深圳"
+		userinfo.NickName = "游客"
+		userinfo.SelfIntroduction = "一个萌新的程序员"
+		c.HTML(http.StatusOK, "modifyInformation.html", gin.H{
+			"userinfo": userinfo,
+		})
+		return
+	} else {
+		c.HTML(http.StatusOK, "modifyInformation.html", gin.H{
+			"userinfo": userinfo,
+		})
+	}
 }
 func commentListHandler(c *gin.Context) {
 	var commentPageCondition domain.CommentPageCondition
@@ -144,7 +160,7 @@ func commentListHandler(c *gin.Context) {
 		})
 		return
 	}
-
+	fmt.Println(comments[0])
 	c.HTML(http.StatusOK, "commentlist.html", gin.H{
 		"commentPageCondition": commentPageCondition,
 		"comments":             comments,

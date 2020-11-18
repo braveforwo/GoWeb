@@ -55,7 +55,7 @@
                 <li class="layui-nav-item">
                     <a id="userName" href="/login">请登录！</a>
                     <dl class="layui-nav-child">
-                        <dd><a id="modifyInformation" href="javascript:;">修改信息</a></dd>
+                        <dd><a id="modifyInformation" href="modifyInformation">修改信息</a></dd>
                         <dd><a href="javascript:;">我的文章</a></dd>
                         <dd><a id="logOut" href="javascript:;">退出登录</a></dd>
                     </dl>
@@ -101,11 +101,11 @@
                 <div class="blog-main-right">
                     <div class="blogerinfo shadow">
                         <div class="blogerinfo-figure">
-                            <img src="assert/images/Absolutely.jpg" alt="Absolutely" />
+                            <img width="100" height="100" id="image" src="assert/images/Absolutely.jpg" alt="Absolutely" />
                         </div>
-                        <p class="blogerinfo-nickname">Absolutely</p>
-                        <p class="blogerinfo-introduce">一枚90后程序员，.NET开发工程师</p>
-                        <p class="blogerinfo-location"><i class="fa fa-location-arrow"></i>&nbsp;四川 - 成都</p>
+                        <p id="nickname" class="blogerinfo-nickname">Absolutely</p>
+                        <p id="introduce" class="blogerinfo-introduce">一枚90后程序员，.NET开发工程师</p>
+                        <p id="location" class="blogerinfo-location"><i class="fa fa-location-arrow"></i>&nbsp;四川 - 成都</p>
                         <hr />
                         <div class="blogerinfo-contact">
                             <a target="_blank" title="QQ交流" href="javascript:layer.msg('启动QQ会话窗口')"><i class="fa fa-qq fa-2x"></i></a>
@@ -240,6 +240,20 @@
                 error:function (message) {
                 }
             });
+        $.ajax({
+            type: "POST",
+            url: "/getInformation",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success:function (message) {
+                  $("#image").attr("src",message.avatar)
+                  $("#introduce").text(message.selfintroduction)
+                  $("#location").text(message.address)
+                  $("#nickname").text(message.nickname)
+            },
+            error:function (message) {
+            }
+        });
         $("#logOut").click(function () {
             $.ajax({
                 type: "POST",

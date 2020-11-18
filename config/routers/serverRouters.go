@@ -10,6 +10,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -21,6 +22,9 @@ func LoadServer(e *gin.Engine) {
 	e.POST("/getUserMessage", getUserMessageServiceHandler)
 	e.POST("/logOut", middleware.AuthenticationMiddleware(), logOutServiceHandler)
 	e.POST("/commitComment", commitCommentServiceHandler)
+	e.POST("/uploadAvatar", uploadAvatarServiceHandler)
+	e.POST("/uploadInformation", uploadInformationServiceHandler)
+	e.POST("/getInformation", getInformationServiceHandler)
 }
 
 func registerServiceHandler(c *gin.Context) {
@@ -171,4 +175,79 @@ func commitCommentServiceHandler(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{"msg": "提交成功！"})
+}
+
+func uploadAvatarServiceHandler(c *gin.Context) {
+	file, _ := c.FormFile("avatar")
+	// 上传文件到指定的路径
+	err := c.SaveUploadedFile(file, "assert/uploadAvatars/"+file.Filename)
+	fmt.Println(file.Filename)
+	response := domain.UploadResponseModel{}
+	response.Url = "assert/uploadAvatars/" + file.Filename
+	response.Message = "上传成功"
+	if err != nil {
+		response.Message = "上传失败"
+		c.JSON(200, response)
+		return
+	}
+	uploadInfomationService := impl.UploadInfomationServiceImpl{}
+	id, _ := c.GetPostForm("userid")
+	userid, _ := strconv.Atoi(id)
+	var user = domain.User{}
+	user.Id = userid
+	if err := uploadInfomationService.UploadAvatar(&user, "assert/uploadAvatars/"+file.Filename); err != nil {
+		response.Message = "上传失败"
+		c.JSON(200, response)
+		return
+	}
+	c.JSON(200, response)
+}
+
+func uploadInformationServiceHandler(c *gin.Context) {
+	var userinfo domain.Userinfo = domain.Userinfo{}
+	var uploadResponse domain.UploadResponseModel = domain.UploadResponseModel{}
+	session := sessions.Default(c)
+	var user domain.User = session.Get("user").(domain.User)
+	if err := c.BindJSON(&userinfo); err != nil {
+		uploadResponse.Message = "更新失败"
+		c.JSON(500, uploadResponse)
+		return
+	}
+	userinfo.UserId = user.Id
+	uploadInfomationService := impl.UploadInfomationServiceImpl{}
+
+	if err := uploadInfomationService.UpdateInformation(userinfo); err != nil {
+		uploadResponse.Message = "更新失败"
+		c.JSON(500, uploadResponse)
+		return
+	}
+	uploadResponse.Message = "更新成功"
+	c.JSON(200, uploadResponse)
+
+}
+
+func getInformationServiceHandler(c *gin.Context) {
+	session := sessions.Default(c)
+	getInformationService := impl.GetInfomationServiceImpl{}
+	if session.Get("user") != nil {
+		var user domain.User = session.Get("user").(domain.User)
+		if userinfo, err := getInformationService.GetInfomationByUserId(user.Id); err != nil {
+			var userinfo domain.Userinfo = domain.Userinfo{}
+			userinfo.Avatar = "assert/images/Absolutely.jpg"
+			userinfo.Address = "深圳"
+			userinfo.NickName = "游客"
+			userinfo.SelfIntroduction = "一个萌新的程序员"
+			c.JSON(200, userinfo)
+			return
+		} else {
+			c.JSON(200, userinfo)
+		}
+	} else {
+		var userinfo domain.Userinfo = domain.Userinfo{}
+		userinfo.Avatar = "assert/images/Absolutely.jpg"
+		userinfo.Address = "深圳"
+		userinfo.NickName = "游客"
+		userinfo.SelfIntroduction = "一个萌新的程序员"
+		c.JSON(200, userinfo)
+	}
 }
