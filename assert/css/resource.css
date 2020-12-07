@@ -4,7 +4,7 @@
     margin: 0 1%;
     margin-bottom: 10px;
     background: #fff;
-    height: 270px;
+    height: 150px;
     float: left;
     padding: 8px 8px;
     -moz-box-sizing: border-box;
@@ -125,7 +125,7 @@
         width: 32%;
         margin: 0 1%;
         margin-bottom: 10px;
-        height: 320px;
+        height: 150px;
     }
 
     .resource-main .resource:nth-child(odd) {

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; Charset=utf-8">
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>不落阁 - 关于本站</title>
+    <link rel="shortcut icon" href="assert/images/Logo_40.png" type="image/x-icon">
+    <!--Layui-->
+    <link href="assert/plug/layui/css/layui.css" rel="stylesheet" />
+    <!--font-awesome-->
+    <link href="assert/plug/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <!--全局样式表-->
+    <link href="assert/css/global.css" rel="stylesheet" />
+    <link href="assert/plug/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <!-- 本页样式表 -->
+    <link href="assert/css/about.css" rel="stylesheet" />
+    <link href="assert/css/home.css" rel="stylesheet" />
+    <style type="text/css">
+        .file{position:absolute;left:45%;cursor:pointer;border-color: orange;
+            filter:alpha(opacity:0);opacity: 0;width: 100px;height: 100px;z-index: 100}
+        .image{ position:absolute;left:45%;}
+    </style>
+    <script src="assert/libs/jquery-1.12.4/jquery.min.js"></script>
+    <script src="assert/libs/jquery-1.12.4/ajaxfileupload.js"></script>
+</head>
+<body>
+<input type="hidden" id="userid" value="{{.userinfo.UserId}}">
+<!-- 导航 -->
+<nav class="blog-nav layui-header">
+    <div class="blog-container">
+        <!-- 不落阁 -->
+        <a class="blog-logo" href="index">不落阁</a>
+        <!-- 导航菜单 -->
+        <!-- 手机和平板的导航开关 -->
+        <a class="blog-navicon" href="javascript:;">
+            <i class="fa fa-navicon"></i>
+        </a>
+    </div>
+</nav>
+<!-- 主体（一般只改变这里的内容） -->
+<div class="blog-body">
+    <div class="blog-container">
+        <blockquote class="layui-elem-quote sitemap layui-breadcrumb shadow">
+            <a href="index" title="网站首页">网站首页</a>
+            <a><cite>上传资源</cite></a>
+        </blockquote>
+        <div class="blog-main">
+            <div class="layui-tab layui-tab-brief shadow" lay-filter="tabAbout">
+                    <form class="layui-form" method="post" action="" >
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">资源名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上传文件</label>
+                        <div class="layui-input-inline">
+                            <input type="file"  placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">资源类型</label>
+                        <div class="layui-input-block">
+                            <select name="sourcetype" lay-verify="required">
+                                <option value=""></option>
+                                <option value="0">源码</option>
+                                <option value="1">工具</option>
+                                <option value="2">电子书</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">资源简介</label>
+                        <div class="layui-input-block">
+                            <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 底部 -->
+<footer class="blog-footer">
+    <p><span>Copyright</span><span>&copy;</span><span>2017</span><a href="http://www.lyblogs.cn">不落阁</a><span>Design By LY</span></p>
+    <p><a href="http://www.miibeian.gov.cn/" target="_blank">蜀ICP备16029915号-1</a></p>
+</footer>
+<!--侧边导航-->
+<ul class="layui-nav layui-nav-tree layui-nav-side blog-nav-left layui-hide" lay-filter="nav">
+    <li class="layui-nav-item">
+        <a href="index"><i class="fa fa-home fa-fw"></i>&nbsp;网站首页</a>
+    </li>
+    <li class="layui-nav-item">
+        <a href="article"><i class="fa fa-file-text fa-fw"></i>&nbsp;文章专栏</a>
+    </li>
+    <li class="layui-nav-item">
+        <a href="resource"><i class="fa fa-tags fa-fw"></i>&nbsp;资源分享</a>
+    </li>
+    <li class="layui-nav-item">
+        <a href="timeline"><i class="fa fa-road fa-fw"></i>&nbsp;点点滴滴</a>
+    </li>
+    <li class="layui-nav-item layui-this">
+        <a href="about"><i class="fa fa-info fa-fw"></i>&nbsp;关于本站</a>
+    </li>
+</ul>
+<!--分享窗体-->
+<div class="blog-share layui-hide">
+    <div class="blog-share-body">
+        <div style="width: 200px;height:100%;">
+            <div class="bdsharebuttonbox">
+                <a class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                <a class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+            </div>
+        </div>
+    </div>
+</div>
+{{/*<script src="assert/js/home.js"></script>*/}}
+<!--遮罩-->
+<div class="blog-mask animated layui-hide"></div>
+<!-- layui.js -->
+<script src="assert/plug/layui/layui.js"></script>
+<!-- 全局脚本 -->
+<script src="assert/js/global.js"></script>
+<!-- 本页脚本 -->
+<script src="assert/js/about.js"></script>
+</body>
+</html>

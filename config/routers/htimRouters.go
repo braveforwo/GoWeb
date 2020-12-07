@@ -25,6 +25,7 @@ func LoadHtml(e *gin.Engine) {
 	e.POST("/articleList", articleListHandler)
 	e.GET("/modifyInformation", middleware.AuthenticationMiddleware(), modifyInformationHandler)
 	e.POST("/commentList", commentListHandler)
+	e.GET("/uploadSource", middleware.AuthenticationMiddleware(), uploadSourceHandler)
 }
 func indexHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "home.html", gin.H{
@@ -164,5 +165,11 @@ func commentListHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "commentlist.html", gin.H{
 		"commentPageCondition": commentPageCondition,
 		"comments":             comments,
+	})
+}
+
+func uploadSourceHandler(c *gin.Context) {
+	c.HTML(http.StatusOK, "uploadSource.html", gin.H{
+		"title": "Main website",
 	})
 }
