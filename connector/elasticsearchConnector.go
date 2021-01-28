@@ -7,7 +7,7 @@ import (
 
 var client *elastic.Client
 
-var host = "http://129.211.93.165:9200"
+var host = "http://xxx.xxx.xxx.xxx:9200"
 
 func init() {
 	var err error
