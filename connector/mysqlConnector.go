@@ -11,7 +11,7 @@ var db *gorm.DB
 
 func init() {
 	var err error
-	db, err = gorm.Open("mysql", "root:123456@(129.211.93.165:3306)/imilateqq?charset=utf8")
+	db, err = gorm.Open("mysql", "root:123456@(xxx.xxx.xxx.xxx:3306)/imilateqq?charset=utf8")
 	if err != nil {
 		fmt.Println(err)
 		fmt.Println(db)
