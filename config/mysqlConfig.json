@@ -3,7 +3,7 @@
   "password" : "123456",
   "user" : "root",
   "type" : "mysql",
-  "host" : "129.211.93.165",
+  "host" : "xxx.xxx.xxx.xxx",
   "port" : "3306",
   "table_prefix" : ""
 }}
